@@ -1,0 +1,16 @@
+
+> groq-html-generator@1.0.0 start
+> node --no-deprecation server.js
+
+🚀 Groq HTML Generator が起動しました!
+📱 ブラウザで http://localhost:3000 にアクセスしてください
+📱 または http://127.0.0.1:3000 でもアクセス可能です
+
+💡 使用方法:
+   1. ブラウザでフォームにユーザー情報を入力
+   2. 「HTMLページを生成」ボタンをクリック
+   3. 生成されたページがブラウザに表示されます
+
+⌨️  CLI版を使用する場合: npm run cli "ユーザー情報"
+直接生成開始: 女性30歳誕生日
+直接生成開始: 女性30歳誕生日

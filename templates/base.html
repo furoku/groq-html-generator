@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEAUTY GLOW - 化粧品ECサイト</title>
+    <!-- LLM EDITING GUIDE
+      - Goal: Keep this as a neutral, highly-customizable base. Output a single self-contained HTML file.
+      - Priority order: (1) Edit design tokens below, (2) Replace content inside marked SLOTs, (3) Adjust copy.
+      - Do NOT rename or modify canonical product names. Use product catalog JSON (script#product-catalog) for details.
+      - Do NOT add external resources. No external CSS/JS/fonts/images. Inline only.
+      - Accessibility: keep focus styles, adequate contrast, and dialog ARIA attributes.
+      - Presets: you can set <body data-theme="cool|warm|mono" data-layout="grid|list|masonry" data-density="compact|default|spacious">.
+        See script#design-presets for suggested variable overrides. Default is grid + default density.
+    -->
+    <style id="tokens">
+      :root {
+        /* Colors */
+        --color-bg: #fafafa;
+        --color-surface: #ffffff;
+        --color-fg: #333333;
+        --color-muted: #666666;
+        --color-border: #eeeeee;
+        --color-primary: #ff6b9d;
+        --color-accent: #ffa726;
+        --color-danger: #e91e63;
+
+        /* Typography */
+        --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          'Helvetica Neue', Arial, 'Noto Sans JP', 'Hiragino Kaku Gothic ProN',
+          'Yu Gothic', Meiryo, sans-serif;
+        --line-height: 1.6;
+        --font-size-sm: 0.9rem;
+        --font-size-md: 1rem;
+        --font-size-lg: 1.25rem;
+        --font-size-xl: clamp(1.6rem, 3.5vw, 3rem);
+
+        /* Space scale */
+        --space-1: 0.5rem;  /* 8px */
+        --space-2: 1rem;    /* 16px */
+        --space-3: 1.5rem;  /* 24px */
+        --space-4: 2rem;    /* 32px */
+        --space-5: 3rem;    /* 48px */
+
+        /* Radius & Shadows */
+        --radius-1: 4px;
+        --radius-2: 8px;
+        --radius-3: 12px;
+        --shadow-1: 0 2px 10px rgba(0,0,0,0.1);
+        --shadow-2: 0 4px 20px rgba(0,0,0,0.1);
+        --shadow-3: 0 8px 30px rgba(0,0,0,0.15);
+
+        /* Layout */
+        --container-max: 1200px;
+        --grid-min: 280px;
+
+        /* Motion */
+        --easing: cubic-bezier(0.2, 0.8, 0.2, 1);
+        --duration-fast: 0.15s;
+        --duration-normal: 0.3s;
+      }
+    </style>
+    <style id="base-styles">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            line-height: var(--line-height);
+            color: var(--color-fg);
+            background-color: var(--color-bg);
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            color: #fff;
+            padding: var(--space-2) 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: opacity var(--duration-normal) var(--easing);
+        }
+
+        .nav a:hover {
+            opacity: 0.8;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            padding: 8px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: var(--radius-1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--color-danger);
+            color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 15%, transparent), color-mix(in srgb, var(--color-accent) 15%, transparent));
+            padding: var(--space-5) 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: var(--font-size-xl);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--color-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        /* Products Section */
+        .products {
+            padding: var(--space-5) 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--color-fg);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(var(--grid-min), 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-3);
+            padding: var(--space-3);
+            box-shadow: var(--shadow-2);
+            transition: transform var(--duration-normal) var(--easing), box-shadow var(--duration-normal) var(--easing);
+            text-align: center;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-3);
+        }
+
+        .product-image {
+            width: 100%;
+            /* Make square by default */
+            aspect-ratio: 1 / 1;
+            height: auto;
+            background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 15%, transparent), color-mix(in srgb, var(--color-accent) 15%, transparent));
+            border-radius: var(--radius-2);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--color-fg);
+        }
+
+        .product-description {
+            color: var(--color-muted);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: transform var(--duration-fast) var(--easing), box-shadow var(--duration-fast) var(--easing);
+            width: 100%;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px color-mix(in srgb, var(--color-primary) 40%, transparent);
+        }
+
+        /* Cart Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .cart-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--color-surface);
+            padding: var(--space-4);
+            border-radius: var(--radius-3);
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 1rem;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-muted);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .checkout-btn {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--color-primary);
+        }
+
+        .footer-section p {
+            line-height: 1.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .nav {
+                display: none;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Accessibility & utilities */
+        :focus-visible {
+          outline: 2px solid var(--color-primary);
+          outline-offset: 2px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+        }
+        .visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+        .u-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .u-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* Theme presets (optional): set body[data-theme] to switch */
+        body[data-theme="cool"] {
+          --color-primary: #5b8def; /* blue */
+          --color-accent: #22b8cf;  /* cyan */
+          --color-danger: #e64980;  /* pink */
+        }
+        body[data-theme="warm"] {
+          --color-primary: #ff7a59; /* coral */
+          --color-accent: #f4c95d;  /* warm yellow */
+          --color-danger: #d7263d;  /* red */
+        }
+        body[data-theme="mono"] {
+          --color-bg: #f7f7f7;
+          --color-surface: #ffffff;
+          --color-fg: #222222;
+          --color-muted: #555555;
+          --color-border: #e5e5e5;
+          --color-primary: #111111;
+          --color-accent: #555555;
+          --color-danger: #aa0000;
+        }
+
+        /* Luxury theme: high-contrast, minimal, editorial */
+        body[data-theme="lux"] {
+          --color-bg: #ffffff;
+          --color-surface: #ffffff;
+          --color-fg: #111111;
+          --color-muted: #555555;
+          --color-border: #e6e6e6;
+          --color-primary: #111111; /* buttons, accents become black */
+          --color-accent: #b38b2e;  /* subtle gold accent */
+          --color-danger: #c41e3a;
+
+          --radius-1: 0px;
+          --radius-2: 0px;
+          --radius-3: 0px;
+          --shadow-1: none;
+          --shadow-2: none;
+          --shadow-3: none;
+        }
+
+        /* Density presets: adjust spacing scale */
+        body[data-density="compact"] {
+          --space-1: 0.35rem;
+          --space-2: 0.75rem;
+          --space-3: 1rem;
+          --space-4: 1.25rem;
+          --space-5: 2rem;
+          --grid-min: 240px;
+        }
+        body[data-density="spacious"] {
+          --space-1: 0.75rem;
+          --space-2: 1.25rem;
+          --space-3: 1.75rem;
+          --space-4: 2.25rem;
+          --space-5: 3.5rem;
+          --grid-min: 320px;
+        }
+
+        /* Layout presets: grid (default), list, masonry-ish */
+        body[data-layout="list"] .products-grid {
+          grid-template-columns: 1fr;
+          gap: var(--space-2);
+        }
+        body[data-layout="list"] .product-card {
+          text-align: left;
+          display: grid;
+          grid-template-columns: 300px 1fr;
+          grid-template-areas:
+            'media title'
+            'media desc'
+            'media price'
+            'media action';
+          align-items: center;
+          column-gap: var(--space-3);
+          row-gap: var(--space-2);
+        }
+        body[data-layout="list"] .product-image { grid-area: media; width: 100%; aspect-ratio: 1 / 1; height: auto; border-radius: var(--radius-2); }
+        body[data-layout="list"] .product-name { grid-area: title; }
+        body[data-layout="list"] .product-description { grid-area: desc; }
+        body[data-layout="list"] .product-price { grid-area: price; }
+        body[data-layout="list"] .add-to-cart { grid-area: action; width: max-content; justify-self: start; }
+
+        body[data-layout="masonry"] .products-grid {
+          grid-auto-flow: dense;
+          align-items: start;
+        }
+        /* Narrow screens: stack list layout */
+        @media (max-width: 640px) {
+          body[data-layout="list"] .product-card {
+            grid-template-columns: 1fr;
+            grid-template-areas:
+              'media'
+              'title'
+              'desc'
+              'price'
+              'action';
+          }
+          body[data-layout="list"] .add-to-cart { width: 100%; justify-self: stretch; }
+          body[data-layout="list"] .product-image { width: 100%; aspect-ratio: 1 / 1; height: auto; }
+        }
+        /* Luxury component overrides */
+        body[data-theme="lux"] .header {
+          background: #fff;
+          color: var(--color-fg);
+          box-shadow: none;
+          border-bottom: 1px solid var(--color-border);
+        }
+        body[data-theme="lux"] .nav a {
+          color: var(--color-fg);
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          font-size: 0.95rem;
+          opacity: 0.9;
+        }
+        body[data-theme="lux"] .nav a:hover { opacity: 1; }
+        body[data-theme="lux"] .cart-icon { border-color: #ddd; }
+        body[data-theme="lux"] .cart-count { background: var(--color-fg); color: #fff; }
+
+        body[data-theme="lux"] .hero { background: #fff; }
+        body[data-theme="lux"] .hero h1 {
+          background: none;
+          -webkit-text-fill-color: initial;
+          color: var(--color-fg);
+          letter-spacing: 0.04em;
+        }
+        body[data-theme="lux"] .hero p { color: var(--color-muted); }
+
+        body[data-theme="lux"] .section-title {
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          font-size: 1.8rem;
+        }
+
+        body[data-theme="lux"] .product-card {
+          box-shadow: none;
+          border: 1px solid var(--color-border);
+          text-align: left;
+        }
+        body[data-theme="lux"] .product-image {
+          background: #f7f7f7;
+          font-size: 0; /* hide emoji for luxury look */
+          min-height: 120px;
+        }
+        body[data-theme="lux"] .product-price { color: var(--color-fg); }
+        body[data-theme="lux"] .add-to-cart {
+          background: var(--color-fg);
+          border-radius: 0;
+        }
+        body[data-theme="lux"] .add-to-cart:hover {
+          box-shadow: none;
+          transform: translateY(-1px);
+        }
+        body[data-theme="lux"] .checkout-btn {
+          background: var(--color-fg);
+          border-radius: 0;
+        }
+        body[data-theme="lux"] .cart-content { border: 1px solid var(--color-border); }
+        body[data-theme="lux"] .footer { background: #111; color: #fff; }
+        body[data-theme="lux"] .footer-section h3 {
+          color: #fff;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          font-weight: 600;
+        }
+    </style>
+</head>
+<body data-theme="lux" data-layout="list" data-density="spacious">
+    <!-- SLOT: header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo" data-slot="logo-text">BEAUTY GLOW</div>
+                <nav>
+                    <ul class="nav">
+                        <li><a href="#home">ホーム</a></li>
+                        <li><a href="#products">商品</a></li>
+                        <li><a href="#about">会社概要</a></li>
+                        <li><a href="#contact">お問い合わせ</a></li>
+                    </ul>
+                </nav>
+                <div class="cart-icon" onclick="toggleCart()">
+                    🛒
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SLOT: hero -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1 data-slot="hero-title">あなたの美しさを引き出す</h1>
+            <p data-slot="hero-subtitle">プレミアム化粧品で毎日をもっと輝かせましょう</p>
+        </div>
+    </section>
+
+    <!-- SLOT: main -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title" data-slot="section-title">人気商品</h2>
+            <div class="products-grid" id="productsGrid" data-block="card-grid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SLOT: modal -->
+    <div class="cart-modal" id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3 id="cartTitle">ショッピングカート</h3>
+                <button class="close-cart" aria-label="カートを閉じる" onclick="toggleCart()">×</button>
+            </div>
+            <div id="cartItems">
+                <!-- Cart items will be displayed here -->
+            </div>
+            <div class="cart-total" id="cartTotal">
+                合計: ¥0
+            </div>
+            <button class="checkout-btn" onclick="checkout()">購入手続きへ進む</button>
+        </div>
+    </div>
+
+    <!-- SLOT: footer -->
+    <footer class="footer" id="about">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>BEAUTY GLOW について</h3>
+                    <p>私たちは、高品質な化粧品を通じてお客様の美しさと自信を引き出すことを使命としています。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>お客様サポート</h3>
+                    <p>営業時間: 月-金 9:00-18:00<br>
+                    電話: 03-1234-5678<br>
+                    メール: support@beautyglow.jp</p>
+                </div>
+                <div class="footer-section">
+                    <h3>配送・返品</h3>
+                    <p>全国送料無料（5,000円以上）<br>
+                    30日間返品保証<br>
+                    最短翌日お届け</p>
+                </div>
+            </div>
+            <p>&copy; 2025 BEAUTY GLOW. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Product data
+        const products = [
+            {
+                id: 1,
+                name: "グロウ ファンデーション",
+                description: "自然な輝きを与える軽やかなファンデーション",
+                price: 4800,
+                emoji: "✨"
+            },
+            {
+                id: 2,
+                name: "ルミナス リップスティック",
+                description: "長時間持続する鮮やかな発色のリップ",
+                price: 3200,
+                emoji: "💋"
+            },
+            {
+                id: 3,
+                name: "ピュア アイシャドウパレット",
+                description: "12色の美しいアイシャドウパレット",
+                price: 5600,
+                emoji: "🎨"
+            },
+            {
+                id: 4,
+                name: "モイスチャー セラム",
+                description: "集中保湿美容液で肌に潤いを",
+                price: 7200,
+                emoji: "💧"
+            },
+            {
+                id: 5,
+                name: "ブライト マスカラ",
+                description: "ボリュームと長さを同時に実現",
+                price: 2800,
+                emoji: "👁️"
+            },
+            {
+                id: 6,
+                name: "フレッシュ チーク",
+                description: "自然な血色感を演出するチーク",
+                price: 3600,
+                emoji: "🌸"
+            }
+        ];
+
+        // Cart functionality
+        let cart = [];
+
+        // Load products
+        function loadProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = products.map(product => `
+                <div class="product-card" data-product-id="${product.id}" data-product-name="${product.name}">
+                    <div class="product-image" aria-hidden="true">${product.emoji}</div>
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-description u-clamp-3">${product.description}</div>
+                    <div class="product-price">¥${product.price.toLocaleString()}</div>
+                    <button class="add-to-cart" onclick="addToCart(${product.id})">
+                        カートに追加
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Add to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            
+            updateCartDisplay();
+            
+            // Visual feedback
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '追加しました!';
+            button.style.background = '#4caf50';
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '';
+            }, 1000);
+        }
+
+        // Update cart display
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            cartCount.textContent = totalItems;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">カートは空です</p>';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <small>¥${item.price.toLocaleString()} × ${item.quantity}</small>
+                        </div>
+                        <div>
+                            <button onclick="changeQuantity(${item.id}, -1)" style="background: #ff6b9d; color: white; border: none; padding: 4px 8px; border-radius: 4px; margin-right: 5px;">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="changeQuantity(${item.id}, 1)" style="background: #ff6b9d; color: white; border: none; padding: 4px 8px; border-radius: 4px; margin-left: 5px;">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            cartTotal.textContent = `合計: ¥${totalPrice.toLocaleString()}`;
+        }
+
+        // Change quantity
+        function changeQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(cartItem => cartItem.id !== productId);
+                }
+                updateCartDisplay();
+            }
+        }
+
+        // Toggle cart modal
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            const willOpen = modal.style.display !== 'block';
+            modal.style.display = willOpen ? 'block' : 'none';
+            if (willOpen) {
+              const firstBtn = modal.querySelector('.close-cart');
+              if (firstBtn) firstBtn.focus();
+            }
+        }
+
+        // Checkout
+        function checkout() {
+            if (cart.length === 0) {
+                alert('カートが空です。商品を追加してください。');
+                return;
+            }
+            
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`ご注文ありがとうございます！\n合計金額: ¥${totalPrice.toLocaleString()}\n\n実際のECサイトでは、ここで決済画面に遷移します。`);
+            
+            // Clear cart
+            cart = [];
+            updateCartDisplay();
+            toggleCart();
+        }
+
+        // Close cart when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('cartModal');
+            if (event.target === modal) {
+                toggleCart();
+            }
+        }
+
+        // Close on Escape
+        window.addEventListener('keydown', function(e){
+          const modal = document.getElementById('cartModal');
+          if (modal && modal.style.display === 'block' && e.key === 'Escape') {
+            toggleCart();
+          }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            updateCartDisplay();
+        });
+    </script>
+
+    <!-- Hidden product catalog for LLM consumption. Do NOT change canonicalName. -->
+    <script type="application/json" id="product-catalog" data-note="immutable-product-names">
+      {
+        "rules": {
+          "canonicalNameImmutable": true,
+          "descriptionEditable": true,
+          "recommendationGuidance": "Use persona info to map benefits and tags; never rename products."
+        },
+        "currency": "JPY",
+        "products": [
+          {
+            "id": 1,
+            "canonicalName": "グロウ ファンデーション",
+            "sku": "BG-001",
+            "category": "foundation",
+            "tags": ["ツヤ", "軽やか", "ロングラスティング", "自然な仕上がり"],
+            "skinType": ["乾燥肌", "普通肌"],
+            "finish": "グロウ",
+            "benefits": ["くすみカバー", "保湿", "ツヤ感アップ"],
+            "price": 4800,
+            "fits": ["10代", "20代", "30代", "40代"],
+            "complements": [4, 6]
+          },
+          {
+            "id": 2,
+            "canonicalName": "ルミナス リップスティック",
+            "sku": "BG-002",
+            "category": "lipstick",
+            "tags": ["高発色", "ロングラスティング", "しっとり"],
+            "finish": "サテン",
+            "benefits": ["血色感アップ", "乾燥ケア"],
+            "price": 3200,
+            "fits": ["10代", "20代", "30代", "40代", "50代"],
+            "complements": [3, 6]
+          },
+          {
+            "id": 3,
+            "canonicalName": "ピュア アイシャドウパレット",
+            "sku": "BG-003",
+            "category": "eyeshadow",
+            "tags": ["12色", "使いやすい", "デイリー"],
+            "finish": "ミックス",
+            "benefits": ["印象アップ", "多用途"],
+            "price": 5600,
+            "fits": ["10代", "20代", "30代", "40代"],
+            "complements": [2, 5]
+          },
+          {
+            "id": 4,
+            "canonicalName": "モイスチャー セラム",
+            "sku": "BG-004",
+            "category": "serum",
+            "tags": ["高保湿", "ヒアルロン酸", "集中ケア"],
+            "skinType": ["乾燥肌", "敏感肌"],
+            "benefits": ["水分補給", "小じわ対策"],
+            "price": 7200,
+            "fits": ["20代", "30代", "40代", "50代"],
+            "complements": [1]
+          },
+          {
+            "id": 5,
+            "canonicalName": "ブライト マスカラ",
+            "sku": "BG-005",
+            "category": "mascara",
+            "tags": ["ボリューム", "ロング", "にじみにくい"],
+            "benefits": ["目力アップ", "カールキープ"],
+            "price": 2800,
+            "fits": ["10代", "20代", "30代", "40代"],
+            "complements": [3]
+          },
+          {
+            "id": 6,
+            "canonicalName": "フレッシュ チーク",
+            "sku": "BG-006",
+            "category": "blush",
+            "tags": ["自然な血色", "軽やか", "ぼかしやすい"],
+            "finish": "ナチュラル",
+            "benefits": ["健康的な印象", "明るさアップ"],
+            "price": 3600,
+            "fits": ["10代", "20代", "30代", "40代", "50代"],
+            "complements": [1, 2]
+          }
+        ]
+      }
+    </script>
+
+    <!-- Optional: design presets the LLM can pick. Apply by setting <body data-theme|data-layout|data-density>. -->
+    <script type="application/json" id="design-presets">
+      {
+        "themes": {
+          "cool": {
+            "overrides": { "--color-primary": "#5b8def", "--color-accent": "#22b8cf", "--color-danger": "#e64980" },
+            "use": "set body[data-theme='cool']"
+          },
+          "warm": {
+            "overrides": { "--color-primary": "#ff7a59", "--color-accent": "#f4c95d", "--color-danger": "#d7263d" },
+            "use": "set body[data-theme='warm']"
+          },
+          "mono": {
+            "overrides": {
+              "--color-bg": "#f7f7f7", "--color-surface": "#ffffff", "--color-fg": "#222222",
+              "--color-muted": "#555555", "--color-border": "#e5e5e5", "--color-primary": "#111111", "--color-accent": "#555555"
+            },
+            "use": "set body[data-theme='mono']"
+          }
+        },
+        "layouts": {
+          "grid": { "use": "set body[data-layout='grid'] (default)" },
+          "list": { "use": "set body[data-layout='list']" },
+          "masonry": { "use": "set body[data-layout='masonry']" }
+        },
+        "densities": {
+          "compact": { "use": "set body[data-density='compact']" },
+          "default": { "use": "no attribute or remove data-density" },
+          "spacious": { "use": "set body[data-density='spacious']" }
+        }
+      }
+    </script>
+
+    <!-- Figma Tokens (DTCG-ish) for design system portability -->
+    <script type="application/json" id="figma-tokens">
+      {
+        "$schema": "https://design-tokens.org",
+        "color": {
+          "bg": { "value": "#ffffff", "type": "color" },
+          "surface": { "value": "#ffffff", "type": "color" },
+          "fg": { "value": "#111111", "type": "color" },
+          "muted": { "value": "#555555", "type": "color" },
+          "border": { "value": "#e6e6e6", "type": "color" },
+          "primary": { "value": "#111111", "type": "color" },
+          "accent": { "value": "#b38b2e", "type": "color" }
+        },
+        "radius": {
+          "sm": { "value": "0px", "type": "borderRadius" },
+          "md": { "value": "0px", "type": "borderRadius" },
+          "lg": { "value": "0px", "type": "borderRadius" }
+        },
+        "shadow": {
+          "none": { "value": "none", "type": "shadow" }
+        },
+        "space": {
+          "1": { "value": "8px", "type": "spacing" },
+          "2": { "value": "16px", "type": "spacing" },
+          "3": { "value": "24px", "type": "spacing" },
+          "4": { "value": "32px", "type": "spacing" },
+          "5": { "value": "48px", "type": "spacing" }
+        },
+        "typography": {
+          "body": { "value": { "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif", "fontWeight": "400", "fontSize": "16px", "lineHeight": "1.6" }, "type": "typography" },
+          "h1": { "value": { "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif", "fontWeight": "600", "fontSize": "48px", "lineHeight": "1.2", "letterSpacing": "0.04em" }, "type": "typography" },
+          "h2": { "value": { "fontWeight": "600", "fontSize": "32px", "lineHeight": "1.3", "letterSpacing": "0.02em" }, "type": "typography" },
+          "button": { "value": { "fontWeight": "600", "fontSize": "16px", "lineHeight": "1.2", "letterSpacing": "0.04em", "textTransform": "uppercase" }, "type": "typography" }
+        }
+      }
+    </script>
+
+    <!-- Figma style names mapping (suggested): import via Figma Tokens plugin -->
+    <script type="application/json" id="figma-styles">
+      {
+        "textStyles": [
+          { "name": "Display/H1", "token": "typography.h1" },
+          { "name": "Heading/H2", "token": "typography.h2" },
+          { "name": "Body/Default", "token": "typography.body" },
+          { "name": "Button/Label", "token": "typography.button" }
+        ],
+        "colorStyles": [
+          { "name": "Palette/Background", "token": "color.bg" },
+          { "name": "Palette/Surface", "token": "color.surface" },
+          { "name": "Palette/Text", "token": "color.fg" },
+          { "name": "Palette/Muted", "token": "color.muted" },
+          { "name": "Palette/Border", "token": "color.border" },
+          { "name": "Palette/Primary", "token": "color.primary" },
+          { "name": "Palette/Accent", "token": "color.accent" }
+        ],
+        "effectStyles": [
+          { "name": "Shadow/None", "token": "shadow.none" }
+        ],
+        "gridSystems": [
+          { "name": "Desktop/12col", "columns": 12, "gutter": 24, "margin": 80 },
+          { "name": "Tablet/8col", "columns": 8, "gutter": 20, "margin": 40 },
+          { "name": "Mobile/4col", "columns": 4, "gutter": 16, "margin": 16 }
+        ],
+        "components": {
+          "Button/Primary": {
+            "paddingX": "space.2", "paddingY": "space.2", "radius": "radius.sm", "bg": "color.primary", "fg": "color.surface"
+          },
+          "Card/Default": {
+            "padding": "space.3", "radius": "radius.lg", "bg": "color.surface", "border": "color.border"
+          },
+          "Nav/Link": {
+            "typography": "typography.button", "color": "color.fg"
+          }
+        }
+      }
+    </script>
+
+    <!-- JSON-LD: Products as ItemList (invisible to UI). Names match canonicalName. -->
+    <script type="application/ld+json" id="schema-products">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "Product",
+            "name": "グロウ ファンデーション",
+            "brand": { "@type": "Brand", "name": "BEAUTY GLOW" },
+            "offers": { "@type": "Offer", "price": "4800", "priceCurrency": "JPY" },
+            "category": "foundation"
+          },
+          {
+            "@type": "Product",
+            "name": "ルミナス リップスティック",
+            "brand": { "@type": "Brand", "name": "BEAUTY GLOW" },
+            "offers": { "@type": "Offer", "price": "3200", "priceCurrency": "JPY" },
+            "category": "lipstick"
+          },
+          {
+            "@type": "Product",
+            "name": "ピュア アイシャドウパレット",
+            "brand": { "@type": "Brand", "name": "BEAUTY GLOW" },
+            "offers": { "@type": "Offer", "price": "5600", "priceCurrency": "JPY" },
+            "category": "eyeshadow"
+          },
+          {
+            "@type": "Product",
+            "name": "モイスチャー セラム",
+            "brand": { "@type": "Brand", "name": "BEAUTY GLOW" },
+            "offers": { "@type": "Offer", "price": "7200", "priceCurrency": "JPY" },
+            "category": "serum"
+          },
+          {
+            "@type": "Product",
+            "name": "ブライト マスカラ",
+            "brand": { "@type": "Brand", "name": "BEAUTY GLOW" },
+            "offers": { "@type": "Offer", "price": "2800", "priceCurrency": "JPY" },
+            "category": "mascara"
+          },
+          {
+            "@type": "Product",
+            "name": "フレッシュ チーク",
+            "brand": { "@type": "Brand", "name": "BEAUTY GLOW" },
+            "offers": { "@type": "Offer", "price": "3600", "priceCurrency": "JPY" },
+            "category": "blush"
+          }
+        ]
+      }
+    </script>
+</body>
+</html>

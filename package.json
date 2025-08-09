@@ -1,0 +1,30 @@
+{
+  "name": "groq-html-generator",
+  "version": "1.0.0",
+  "description": "HTMLページ生成器 with Groq",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --no-deprecation server.js",
+    "dev": "node --no-deprecation server.js", 
+    "cli": "node --no-deprecation index.js",
+    "server": "node --no-deprecation server.js",
+    "local": "node --no-deprecation local-generator.js",
+    "open": "node --no-deprecation local-generator.js",
+    "monitor": "node simple-monitor.js"
+  },
+  "dependencies": {
+    "groq-sdk": "^0.7.0",
+    "dotenv": "^16.4.0",
+    "express": "^4.19.0",
+    "punycode": "^2.3.1"
+  },
+  "keywords": [
+    "groq",
+    "html",
+    "generator",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT"
+}
