@@ -19,7 +19,7 @@ console.log('='.repeat(50));
 
 generateHTML(userInput, { onToken: (t) => process.stdout.write(t) })
   .then((html) => {
-    const outputPath = saveHTML(html);
+    const outputPath = saveHTML(html, { userInput });
     console.log(`\n\nHTMLファイルが保存されました: ${outputPath}`);
   })
   .catch((error) => {

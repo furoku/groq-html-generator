@@ -13,7 +13,7 @@ try {
 }
 
 // 静的ファイルの提供
-app.use('/output', express.static('output'));
+app.use('/output', express.static('docs/output'));
 app.use('/templates', express.static('templates'));
 
 // ヘルスチェック用エンドポイント
@@ -61,7 +61,7 @@ app.get('/stream', async (req, res) => {
       }
     });
     if (shouldSave) {
-      const outputPath = saveHTML(html);
+      const outputPath = saveHTML(html, { userInput });
       console.log(`HTMLファイルが保存されました: ${outputPath}`);
     }
     res.end();
@@ -85,7 +85,7 @@ app.get('/', async (req, res) => {
       // オプションでファイルも保存（デフォルトはfalse）
       const saveFile = req.query.save === 'true';
       if (saveFile) {
-        const outputPath = saveHTML(generatedHTML);
+        const outputPath = saveHTML(generatedHTML, { userInput: status });
         console.log(`HTMLファイルも保存されました: ${outputPath}`);
       }
       
@@ -377,7 +377,7 @@ app.get('/result', async (req, res) => {
   
   try {
     const generatedHTML = await generateHTML(userInput);
-    const outputPath = saveHTML(generatedHTML);
+    const outputPath = saveHTML(generatedHTML, { userInput });
     console.log(`HTMLファイルが保存されました: ${outputPath}`);
     
     // 生成されたHTMLを直接表示

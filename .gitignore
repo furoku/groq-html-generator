@@ -21,8 +21,8 @@ coverage/
 # nyc test coverage
 .nyc_output
 
-# Output directory
-# output/
+# Output directory (now in docs/output for GitHub Pages)
+# docs/output/
 
 # OS generated files
 .DS_Store
