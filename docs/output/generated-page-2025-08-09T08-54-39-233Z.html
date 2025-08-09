@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEAUTY GLOW - ゴブリンからの贈り物</title>
+    <style id="tokens">
+      :root {
+        /* Colors – a mystical forest palette */
+        --color-bg: #faf7f2;                /* soft parchment */
+        --color-surface: #ffffff;           /* clean */
+        --color-fg: #2d2a2a;                 /* dark ink */
+        --color-muted: #6e5c4a;              /* muted earth */
+        --color-border: #e2d5c5;              /* light border */
+        --color-primary: #2e7d32; /* deep forest */
+        --color-accent: #f9a825;  /* golden glow */
+        --color-danger: #c62828;
+
+        /* Typography */
+        --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+        --line-height: 1.6;
+        --font-size-sm: 0.9rem;
+        --font-size-md: 1rem;
+        --font-size-lg: 1.25rem;
+        --font-size-xl: clamp(1.6rem, 3.5vw, 3rem);
+
+        /* Space scale */
+        --space-1: 0.5rem;
+        --space-2: 1rem;
+        --space-3: 1.5rem;
+        --space-4: 2rem;
+        --space-5: 3rem;
+
+        /* Radius & Shadows */
+        --radius-1: 4px;
+        --radius-2: 8px;
+        --radius-3: 12px;
+        --shadow-1: 0 2px 8px rgba(0,0,0,0.07);
+        --shadow-2: 0 4px 12px rgba(0,0,0,0.1);
+        --shadow-3: 0 6px 18px rgba(0,0,0,0.12);
+
+        /* Layout */
+        --container-max: 1200px;
+        --grid-min: 260px;
+
+        /* Motion */
+        --easing: cubic-bezier(0.2, 0.8, 0.2, 1);
+        --duration-fast: 0.15s;
+        --duration-normal: 0.3s;
+      }
+    </style>
+
+    <style id="base-styles">
+      *{margin:0;padding:0;box-sizing:border-box}
+      body{font-family:var(--font-sans);line-height:var(--line-height);color:var(--color-fg);background:var(--color-bg)}
+      .container{max-width:var(--container-max);margin:0 auto;padding:0 20px}
+      .header{background:linear-gradient(135deg,var(--color-primary),var(--color-accent));color:#fff;padding:var(--space-2) 0;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-1)}
+      .header-content{display:flex;justify-content:space-between;align-items:center}
+      .logo{font-size:1.8rem;font-weight:700}
+      .nav{display:flex;gap:2rem;list-style:none}
+      .nav a{color:#fff;text-decoration:none;transition:opacity var(--duration-normal) var(--easing)}
+      .nav a:hover{opacity:.8}
+      .cart-icon{position:relative;cursor:pointer;padding:8px;border:1px solid rgba(255,255,255,.3);border-radius:var(--radius-1)}
+      .cart-count{position:absolute;top:-8px;right:-8px;background:var(--color-danger);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700}
+      .hero{background:linear-gradient(135deg, color-mix(in srgb,var(--color-primary) 15%,transparent),color-mix(in srgb,var(--color-accent) 15%,transparent));padding:var(--space-5) 0;text-align:center}
+      .hero h1{font-size:var(--font-size-xl);margin-bottom:1rem;background:linear-gradient(135deg,var(--color-primary),var(--color-accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+      .hero p{font-size:1.2rem;color:var(--color-muted);margin-bottom:var(--space-4)}
+      .products{padding:var(--space-5) 0}
+      .section-title{text-align:center;font-size:2.5rem;margin-bottom:3rem;color:var(--color-fg)}
+      .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--grid-min),1fr));gap:2rem}
+      .product-card{background:var(--color-surface);border-radius:var(--radius-3);padding:var(--space-3);box-shadow:var(--shadow-2);transition:transform var(--duration-normal) var(--easing),box-shadow var(--duration-normal) var(--easing);text-align:center}
+      .product-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-3)}
+      .product-image{width:100%;aspect-ratio:1/1;background:linear-gradient(135deg, color-mix(in srgb,var(--color-primary) 15%,transparent),color-mix(in srgb,var(--color-accent) 15%,transparent));border-radius:var(--radius-2);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;font-size:3rem}
+      .product-name{font-size:1.3rem;font-weight:700;margin-bottom:.5rem;color:var(--color-fg)}
+      .product-description{color:var(--color-muted);margin-bottom:1rem;font-size:0.9rem}
+      .product-price{font-size:1.5rem;font-weight:700;color:var(--color-primary);margin-bottom:1rem}
+      .add-to-cart{background:linear-gradient(135deg,var(--color-primary),var(--color-accent));color:#fff;border:none;padding:12px 24px;border-radius:25px;cursor:pointer;font-size:1rem;font-weight:700;transition:transform var(--duration-fast) var(--easing),box-shadow var(--duration-fast) var(--easing);width:100%}
+      .add-to-cart:hover{transform:translateY(-2px);box-shadow:0 4px 15px color-mix(in srgb,var(--color-primary) 40%,transparent)}
+      .cart-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000}
+      .cart-content{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--color-surface);padding:var(--space-4);border-radius:var(--radius-3);width:90%;max-width:500px;max-height:80vh;overflow-y:auto}
+      .cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;border-bottom:1px solid var(--color-border);padding-bottom:1rem}
+      .close-cart{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--color-muted)}
+      .cart-item{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;border-bottom:1px solid #f0f0f0}
+      .cart-total{font-size:1.2rem;font-weight:700;text-align:right;margin-top:1rem;padding-top:1rem;border-top:2px solid var(--color-primary);color:var(--color-primary)}
+      .checkout-btn{background:linear-gradient(135deg,var(--color-primary),var(--color-accent));color:#fff;border:none;padding:15px;border-radius:25px;cursor:pointer;font-size:1.1rem;font-weight:700;width:100%;margin-top:1rem}
+      .footer{background:#2d2a2a;color:#fff;text-align:center;padding:3rem 0;margin-top:4rem}
+      .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-bottom:2rem}
+      .footer-section h3{margin-bottom:1rem;color:var(--color-accent)}
+      .footer-section p{line-height:1.8}
+      @media (max-width:768px){.hero h1{font-size:2rem};.nav{display:none}} 
+      :focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
+      .visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+      .u-clamp-2{-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;display:-webkit-box}
+      .u-clamp-3{-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;display:-webkit-box}
+    </style>
+
+    <title>ゴブリンの贈り物 - BEAUTY GLOW</title>
+</head>
+<body data-theme="cool" data-layout="grid" data-density="default">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">ゴブリンの贈り物</div>
+                <nav>
+                    <ul class="nav">
+                        <li><a href="#home">ホーム</a></li>
+                        <li><a href="#story">ゴブリンの物語</a></li>
+                        <li><a href="#products">商品一覧</a></li>
+                        <li><a href="#contact">お問い合わせ</a></li>
+                    </ul>
+                </nav>
+                <div class="cart-icon" onclick="toggleCart()" aria-label="ショッピングカートを開く">
+                    🛒
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>人間の姫を愛したゴブリンの贈り物</h1>
+            <p>遠い森の奥で、君への特別な美しさを届ける。</p>
+        </div>
+    </section>
+
+    <!-- Story section -->
+    <section id="story" class="hero" style="background:linear-gradient(135deg,var(--color-primary),var(--color-accent));color:#fff;">
+        <div class="container">
+            <h2 class="section-title">ゴブリンの恋物語</h2>
+            <p class="u-clamp-3">古の森に住むゴブリンは、遠くの城に住む人間の姫に恋をした。<br>彼は美しい姫のために、最高の化粧品を探し、手作りの箱に込めて贈ります。<br>このサイトは、ゴブリンが心を込めて選んだ商品たちです。</p>
+        </div>
+    </section>
+
+    <!-- Product Grid -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">ギフトに選びたい人気商品</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be injected by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3 id="cartTitle">ショッピングカート</h3>
+                <button class="close-cart" aria-label="カートを閉じる" onclick="toggleCart()">×</button>
+            </div>
+            <div id="cartItems"></div>
+            <div class="cart-total" id="cartTotal">合計: ¥0</div>
+            <button class="checkout-btn" onclick="checkout()">購入手続きへ</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>BEAUTY GLOW について</h3>
+                    <p>私たちの化粧品は、ゴブリンの愛とこだわりから生まれました。あなたの美しさを引き立てます。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>お客様サポート</h3>
+                    <p>営業時間: 平日 9:00-18:00<br>電話: 03-1234-5678<br>メール: support@beautyglow.jp</p>
+                </div>
+                <div class="footer-section">
+                    <h3>配送・返品</h3>
+                    <p>全国送料無料（5,000円以上）<br>30日間返品保証<br>最短翌日お届け</p>
+                </div>
+            </div>
+            <p>&copy; 2025 BEAUTY GLOW. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Product data & functionality -->
+    <script>
+        const products = [
+            {id:1,name:"グロウ ファンデーション",description:"自然な輝きを与える軽やかなファンデーション",price:4800,emoji:"✨"},
+            {id:2,name:"ルミナス リップスティック",description:"長時間持続する鮮やかな発色のリップ",price:3200,emoji:"💋"},
+            {id:3,name:"ピュア アイシャドウパレット",description:"12色の美しいアイシャドウパレット",price:5600,emoji:"🎨"},
+            {id:4,name:"モイスチャー セラム",description:"集中保湿美容液で肌に潤いを",price:7200,emoji:"💧"},
+            {id:5,name:"ブライト マスカラ",description:"ボリュームと長さを同時に実現",price:2800,emoji:"👁️"},
+            {id:6,name:"フレッシュ チーク",description:"自然な血色感を演出するチーク",price:3600,emoji:"🌸"}
+        ];
+        let cart = [];
+
+        function loadProducts(){
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = products.map(p=>`
+                <div class="product-card" data-product-id="${p.id}" data-product-name="${p.name}">
+                    <div class="product-image" aria-hidden="true">${p.emoji}</div>
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-description u-clamp-3">${p.description}</div>
+                    <div class="product-price">¥${p.price.toLocaleString()}</div>
+                    <button class="add-to-cart" onclick="addToCart(${p.id})">カートに追加</button>
+                </div>
+                `).join('');
+        }
+
+        function addToCart(productId){
+            const product = products.find(p=>p.id===productId);
+            const item = cart.find(c=>c.id===productId);
+            if(item){
+                item.quantity++;
+            } else {
+                cart.push({ ...product, quantity:1 });
+            }
+            updateCart();
+            const btn = event.target;
+            const original = btn.textContent;
+            btn.textContent = "追加しました!";
+            btn.style.background = "#4caf50";
+            setTimeout(()=>{ btn.textContent=original; btn.style.background=""; },1000);
+        }
+
+        function changeQuantity(id, delta){
+            const item = cart.find(c=>c.id===id);
+            if(!item) return;
+            item.quantity+=delta;
+            if(item.quantity<=0){ cart = cart.filter(c=>c.id!==id); }
+            updateCart();
+        }
+
+        function updateCart(){
+            const count = document.getElementById('cartCount');
+            const items = document.getElementById('cartItems');
+            const total = document.getElementById('cartTotal');
+            const totalItems = cart.reduce((a,b)=>a+b.quantity,0);
+            const totalPrice = cart.reduce((a,b)=>a+(b.price*b.quantity),0);
+            count.textContent = totalItems;
+            if(cart.length===0){
+                items.innerHTML = '<p style="text-align:center;color:#666;padding:2rem;">カートは空です</p>';
+            }else{
+                items.innerHTML = cart.map(i=>`
+                    <div class="cart-item">
+                        <div><strong>${i.name}</strong><br><small>¥${i.price.toLocaleString()} × ${i.quantity}</small></div>
+                        <div>
+                            <button onclick="changeQuantity(${i.id},-1)" style="background:var(--color-primary);color:#fff;border:none;padding:4px 8px;border-radius:4px;margin-right:4px;">-</button>
+                            <span>${i.quantity}</span>
+                            <button onclick="changeQuantity(${i.id},1)" style="background:var(--color-primary);color:#fff;border:none;padding:4px 8px;border-radius:4px;margin-left:4px;">+</button>
+                        </div>
+                    </div>`).join('');
+            }
+            total.textContent = `合計: ¥${totalPrice.toLocaleString()}`;
+        }
+
+        function toggleCart(){
+            const modal = document.getElementById('cartModal');
+            const show = modal.style.display!=='block';
+            modal.style.display = show ? 'block' : 'none';
+            if(show){
+                const closeBtn = modal.querySelector('.close-cart');
+                if(closeBtn) closeBtn.focus();
+            }
+        }
+
+        function checkout(){
+            if(cart.length===0){
+                alert('カートが空です。商品を追加してください。');
+                return;
+            }
+            const totalPrice = cart.reduce((a,b)=>a+(b.price*b.quantity),0);
+            alert(`ご注文ありがとうございます！\n合計金額: ¥${totalPrice.toLocaleString()}\n(実際の決済は実装されていません)`);
+            cart = [];
+            updateCart();
+            toggleCart();
+        }
+
+        // Close modal on outside click
+        window.addEventListener('click', e=>{
+            const modal = document.getElementById('cartModal');
+            if(e.target===modal){ toggleCart(); }
+        });
+
+        // Escape key close
+        window.addEventListener('keydown',e=>{
+            const modal = document.getElementById('cartModal');
+            if(e.key==='Escape' && modal.style.display==='block'){ toggleCart(); }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a=>{
+            a.addEventListener('click',e=>{
+                e.preventDefault();
+                const target=document.querySelector(a.getAttribute('href'));
+                if(target){ target.scrollIntoView({behavior:'smooth',block:'start'}); }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); updateCart(); });
+    </script>
+
+    <!-- Hidden product catalog (unchanged) -->
+    <script type="application/json" id="product-catalog" data-note="immutable-product-names">
+      {
+        "rules": {
+          "canonicalNameImmutable": true,
+          "descriptionEditable": true,
+          "recommendationGuidance": "Use persona info to map benefits and tags; never rename products."
+        },
+        "currency": "JPY",
+        "products": [
+          {"id":1,"canonicalName":"グロウ ファンデーション","sku":"BG-001","category":"foundation","tags":["ツヤ","軽やか","ロングラスティング","自然な仕上がり"],"skinType":["乾燥肌","普通肌"],"finish":"グロウ","benefits":["くすみカバー","保湿","ツヤ感アップ"],"price":4800,"fits":["10代","20代","30代","40代"],"complements":[4,6]},
+            {"id":2,"canonicalName":"ルミナス リップスティック","sku":"BG-002","category":"lipstick","tags":["高発色","ロングラスティング","しっとり"],"finish":"サテン","benefits":["血色感アップ","乾燥ケア"],"price":3200,"fits":["10代","20代","30代","40代","50代"],"complements":[3,6]},
+            {"id":3,"canonicalName":"ピュア アイシャドウパレット","sku":"BG-003","category":"eyeshadow","tags":["12色","使いやすい","デイリー"],"finish":"ミックス","benefits":["印象アップ","多用途"],"price":5600,"fits":["10代","20代","30代","40代"],"complements":[2,5]},
+            {"id":4,"canonicalName":"モイスチャー セラム","sku":"BG-004","category":"serum","tags":["高保湿","ヒアルロン酸","集中ケア"],"skinType":["乾燥肌","敏感肌"],"benefits":["水分補給","小じわ対策"],"price":7200,"fits":["20代","30代","40代","50代"],"complements":[1]},
+            {"id":5,"canonicalName":"ブライト マスカラ","sku":"BG-005","category":"mascara","tags":["ボリューム","ロング","にじみにくい"],"benefits":["目力アップ","カールキープ"],"price":2800,"fits":["10代","20代","30代","40代"],"complements":[3]},
+            {"id":6,"canonicalName":"フレッシュ チーク","sku":"BG-006","category":"blush","tags":["自然な血色","軽やか","ぼかしやすい"],"finish":"ナチュラル","benefits":["健康的な印象","明るさアップ"],"price":3600,"fits":["10代","20代","30代","40代","50代"],"complements":[1,2]}
+          ]
+        }
+    </script>
+</body>
+</html>
