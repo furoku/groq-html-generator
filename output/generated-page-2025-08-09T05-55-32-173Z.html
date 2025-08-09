@@ -1,0 +1,618 @@
+```html
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEAUTY GLOW - 健康志向の女性に寄り添う化粧品ECサイト</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fafafa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #7cb342, #ffb300);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            transition: opacity .3s;
+        }
+
+        .nav a:hover {
+            opacity: .8;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, .3);
+            border-radius: 4px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #e91e63;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: .8rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #7cb34222, #ffb30022);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #7cb342, #ffb300);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            color: #333;
+        }
+
+        /* Products */
+        .products,
+        .health {
+            padding: 4rem 0;
+        }
+
+        .products-grid,
+        .health-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-card,
+        .health-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .1);
+            transition: transform .3s, box-shadow .3s;
+            text-align: center;
+        }
+
+        .product-card:hover,
+        .health-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .15);
+        }
+
+        .product-image,
+        .health-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #7cb34222, #ffb30022);
+        }
+
+        .product-name,
+        .health-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: .5rem;
+            color: #333;
+        }
+
+        .product-description,
+        .health-description {
+            font-size: .9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .product-price,
+        .health-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            background: linear-gradient(135deg, #7cb342, #ffb300);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            width: 100%;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(124, 179, 66, .4);
+        }
+
+        /* Cart Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .5);
+            z-index: 1000;
+        }
+
+        .cart-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .cart-total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #7cb342;
+            color: #7cb342;
+        }
+
+        .checkout-btn {
+            background: linear-gradient(135deg, #7cb342, #ffb300);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #ff6b9d;
+        }
+
+        .footer-section p {
+            line-height: 1.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .products-grid,
+            .health-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">BEAUTY GLOW</div>
+                <nav>
+                    <ul class="nav">
+                        <li><a href="#home">ホーム</a></li>
+                        <li><a href="#products">商品</a></li>
+                        <li><a href="#health">健康志向</a></li>
+                        <li><a href="#about">会社概要</a></li>
+                        <li><a href="#contact">お問い合わせ</a></li>
+                    </ul>
+                </nav>
+                <div class="cart-icon" onclick="toggleCart()">
+                    🛒
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>美しさと健康、両方を手に入れる</h1>
+            <p>30代女性のための、健康志向なプレミアム化粧品</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">人気商品</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- JSで動的ロード -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Health‑Focused Section -->
+    <section class="health" id="health">
+        <div class="container">
+            <h2 class="section-title">健康志向のおすすめ商品</h2>
+            <div class="health-grid" id="healthGrid">
+                <!-- JSで動的ロード -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>ショッピングカート</h3>
+                <button class="close-cart" onclick="toggleCart()">✕</button>
+            </div>
+            <div id="cartItems">
+                <p style="text-align:center;color:#666;padding:2rem;">カートは空です</p>
+            </div>
+            <div class="cart-total" id="cartTotal">合計: ¥0</div>
+            <button class="checkout-btn" onclick="checkout()">購入手続きへ進む</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="about">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>BEAUTY GLOW について</h3>
+                    <p>私たちは、自然由来の成分と健康を考えた高品質な化粧品で、30代女性の美と健康をサポートします。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>お客様サポート</h3>
+                    <p>営業時間: 月-金 9:00-18:00<br>電話: 03-1234-5678<br>メール: support@beautyglow.jp</p>
+                </div>
+                <div class="footer-section">
+                    <h3>配送・返品</h3>
+                    <p>全国送料無料（5,000円以上）<br>30日間返品保証<br>最短翌日お届け</p>
+                </div>
+            </div>
+            <p>&copy; 2025 BEAUTY GLOW. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 商品データ (一般 + 健康志向)
+        const products = [
+            // 通常商品
+            {
+                id: 1,
+                name: "グロウ ファンデーション",
+                description: "自然な輝きを与える軽やかなファンデーション",
+                price: 4800,
+                emoji: "✨"
+            },
+            {
+                id: 2,
+                name: "ルミナス リップスティック",
+                description: "長時間持続する鮮やかな発色のリップ",
+                price: 3200,
+                emoji: "💋"
+            },
+            {
+                id: 3,
+                name: "ピュア アイシャドウパレット",
+                description: "12色の美しいアイシャドウパレット",
+                price: 5600,
+                emoji: "🎨"
+            },
+            {
+                id: 4,
+                name: "モイスチャー セラム",
+                description: "集中保湿美容液で肌に潤いを",
+                price: 7200,
+                emoji: "💧"
+            },
+            // 健康志向商品（id 100〜）
+            {
+                id: 101,
+                name: "オーガニック グリーンフェイスクリーム",
+                description: "有機栽培のアロエとカモミールで作った保湿クリーム",
+                price: 8800,
+                emoji: "🌿",
+                health: true
+            },
+            {
+                id: 102,
+                name: "ビタミンC ブライトニングセラム",
+                description: "自然由来ビタミンCで透明感UP",
+                price: 6500,
+                emoji: "🍊",
+                health: true
+            },
+            {
+                id: 103,
+                name: "コラーゲン リッチ マスク",
+                description: "海藻エキス配合でハリをサポート",
+                price: 5300,
+                emoji: "🧖‍♀️",
+                health: true
+            },
+            {
+                id: 104,
+                name: "フレッシュ グリーンティー ローション",
+                description: "抗酸化作用のある緑茶エキス配合の化粧水",
+                price: 4200,
+                emoji: "🍃",
+                health: true
+            }
+        ];
+
+        // カートデータ
+        let cart = [];
+
+        // 商品表示
+        function loadProducts() {
+            const grid = document.getElementById('productsGrid');
+            const healthGrid = document.getElementById('healthGrid');
+
+            // 一般商品
+            grid.innerHTML = products.filter(p => !p.health).map(p => `
+                <div class="product-card">
+                    <div class="product-image">${p.emoji}</div>
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-description">${p.description}</div>
+                    <div class="product-price">¥${p.price.toLocaleString()}</div>
+                    <button class="add-to-cart" onclick="addToCart(${p.id})">カートに追加</button>
+                </div>
+            `).join('');
+
+            // 健康志向商品
+            const healthItems = products.filter(p => p.health);
+            if (healthItems.length) {
+                healthGrid.innerHTML = healthItems.map(p => `
+                    <div class="health-card">
+                        <div class="health-image">${p.emoji}</div>
+                        <div class="health-name">${p.name}</div>
+                        <div class="health-description">${p.description}</div>
+                        <div class="health-price">¥${p.price.toLocaleString()}</div>
+                        <button class="add-to-cart" onclick="addToCart(${p.id})">カートに追加</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // カートに商品追加
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCartDisplay();
+
+            // ボタンのフィードバック
+            const btn = event?.target;
+            if (btn) {
+                const original = btn.textContent;
+                btn.textContent = '追加しました!';
+                btn.style.background = '#4caf50';
+                setTimeout(() => {
+                    btn.textContent = original;
+                    btn.style.background = '';
+                }, 1000);
+            }
+        }
+
+        // カート表示更新
+        function updateCartDisplay() {
+            const countEl = document.getElementById('cartCount');
+            const itemsEl = document.getElementById('cartItems');
+            const totalEl = document.getElementById('cartTotal');
+
+            const totalItems = cart.reduce((a, b) => a + b.quantity, 0);
+            const totalPrice = cart.reduce((a, b) => a + b.price * b.quantity, 0);
+            countEl.textContent = totalItems;
+
+            if (cart.length === 0) {
+                itemsEl.innerHTML = '<p style="text-align:center;color:#666;padding:2rem;">カートは空です</p>';
+            } else {
+                itemsEl.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <small>¥${item.price.toLocaleString()} × ${item.quantity}</small>
+                        </div>
+                        <div>
+                            <button onclick="changeQuantity(${item.id}, -1)" style="background:#ff6b9d;color:#fff;border:none;padding:4px 8px;border-radius:4px;margin-right:5px;">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="changeQuantity(${item.id}, 1)" style="background:#ff6b9d;color:#fff;border:none;padding:4px 8px;border-radius:4px;margin-left:5px;">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            totalEl.textContent = `合計: ¥${totalPrice.toLocaleString()}`;
+        }
+
+        // 数量変更
+        function changeQuantity(id, diff) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+            item.quantity += diff;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== id);
+            }
+            updateCartDisplay();
+        }
+
+        // カートモーダル
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // 購入手続き
+        function checkout() {
+            if (!cart.length) {
+                alert('カートが空です。商品を追加してください。');
+                return;
+            }
+            const total = cart.reduce((a, b) => a + b.price * b.quantity, 0);
+            alert(`ご注文ありがとうございます！\n合計金額: ¥${total.toLocaleString()}\n\n※実際の決済は未実装です。`);
+            cart = [];
+            updateCartDisplay();
+            toggleCart();
+        }
+
+        // モーダル外クリックで閉じる
+        window.onclick = function (e) {
+            const modal = document.getElementById('cartModal');
+            if (e.target === modal) toggleCart();
+        };
+
+        // スムーズスクロール
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            updateCartDisplay();
+        });
+    </script>
+</body>
+
+</html>
+```

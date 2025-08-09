@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEAUTY GLOW - 30歳の誕生日特別企画</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Helvetica Neue',Arial,sans-serif;line-height:1.6;color:#333;background:#fff0f5;}
+        .container{max-width:1200px;margin:0 auto;padding:0 20px;}
+        /* Header */
+        .header{background:linear-gradient(135deg,#ff6b9d,#ffb6c1);color:#fff;padding:1rem 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+        .header-content{display:flex;justify-content:space-between;align-items:center;}
+        .logo{font-size:1.8rem;font-weight:bold;}
+        .nav{display:flex;list-style:none;gap:2rem;}
+        .nav a{color:#fff;text-decoration:none;transition:opacity .3s;}
+        .nav a:hover{opacity:.8;}
+        .cart-icon{position:relative;cursor:pointer;padding:8px;border:1px solid rgba(255,255,255,.3);border-radius:4px;}
+        .cart-count{position:absolute;top:-8px;right:-8px;background:#e91e63;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:bold;}
+        /* Banner */
+        .birthday-banner{background:#ffb6c1;padding:0.5rem 0;text-align:center;color:#fff;font-weight:bold;}
+        .birthday-banner a{color:#fff;text-decoration:underline;}
+        /* Hero Section */
+        .hero{background:linear-gradient(135deg,#ff6b9d22,#ffa72622);padding:4rem 0;text-align:center;}
+        .hero h1{font-size:3rem;margin-bottom:1rem;background:linear-gradient(135deg,#ff6b9d,#ffb6c1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        .hero p{font-size:1.2rem;color:#666;margin-bottom:2rem;}
+        /* Products Section */
+        .products{padding:4rem 0;}
+        .section-title{font-size:2.5rem;margin-bottom:3rem;color:#333;text-align:center;}
+        .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;margin-bottom:3rem;}
+        .product-card{background:#fff;border-radius:12px;padding:1.5rem;box-shadow:0 4px 20px rgba(0,0,0,.1);transition:transform .3s,box-shadow .3s;text-align:center;}
+        .product-card:hover{transform:translateY(-5px);box-shadow:0 8px 30px rgba(0,0,0,.15);}
+        .product-image{width:100%;height:200px;background:linear-gradient(135deg,#ff6b9d22,#ffa72622);border-radius:8px;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;font-size:3rem;}
+        .product-name{font-size:1.3rem;font-weight:bold;margin:0.5rem 0;color:#333;}
+        .product-description{font-size:.9rem;color:#666;margin-bottom:1rem;}
+        .product-price{font-size:1.5rem;font-weight:bold;color:#ff6b9d;margin-bottom:1rem;}
+        .add-to-cart{background:linear-gradient(135deg,#ff6b9d,#ffa726);color:#fff;border:none;padding:12px 24px;border-radius:25px;cursor:pointer;font-size:1rem;font-weight:bold;transition:transform .2s,box-shadow .2s;width:100%;}
+        .add-to-cart:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(255,107,157,.4);}
+        /* Cart Modal */
+        .cart-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;}
+        .cart-content{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:2rem;border-radius:12px;width:90%;max-width:500px;max-height:80vh;overflow-y:auto;}
+        .cart-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding-bottom:1rem;margin-bottom:1.5rem;}
+        .close-cart{background:none;border:none;font-size:1.5rem;cursor:pointer;color:#666;}
+        .cart-item{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;border-bottom:1px solid #f0f0f0;}
+        .cart-total{font-size:1.2rem;font-weight:bold;text-align:right;margin-top:1rem;padding-top:1rem;border-top:2px solid #ff6b9d;color:#ff6b9d;}
+        .checkout-btn{background:linear-gradient(135deg,#ff6b9d,#ffa726);color:#fff;border:none;padding:15px;border-radius:25px;font-size:1.1rem;font-weight:bold;cursor:pointer;width:100%;margin-top:1rem;}
+        /* Footer */
+        .footer{background:#333;color:#fff;padding:3rem 0;text-align:center;margin-top:4rem;}
+        .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-bottom:2rem;}
+        .footer-section h3{color:#ff6b9d;margin-bottom:1rem;}
+        .footer-section p{line-height:1.8;}
+        /* Responsive */
+        @media(max-width:768px){
+            .hero h1{font-size:2rem;}
+            .nav{display:none;}
+            .products-grid{grid-template-columns:1fr;}
+        }
+    </style>
+</head>
+<body>
+    <!-- Birthday Banner -->
+    <div class="birthday-banner">
+        🎉<strong>30歳のお誕生日おめでとうございます！</strong> 🎉
+        只今、特別な <a href="#birthday-gifts">バースデーセット</a> が30%オフ！ 今すぐチェック 👉
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">BEAUTY GLOW</div>
+                <nav>
+                    <ul class="nav">
+                        <li><a href="#home">ホーム</a></li>
+                        <li><a href="#products">商品</a></li>
+                        <li><a href="#birthday-gifts">バースデーギフト</a></li>
+                        <li><a href="#about">会社概要</a></li>
+                        <li><a href="#contact">お問い合わせ</a></li>
+                    </ul>
+                </nav>
+                <div class="cart-icon" onclick="toggleCart()">
+                    🛒<span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>あなたの美しさ、30歳の輝き</h1>
+            <p>誕生日を祝う限定コレクションで、特別な一日をもっと華やかに。</p>
+            <button class="add-to-cart" style="max-width:200px;margin:0 auto;display:block;" onclick="scrollToSection('birthday-gifts')">バースデーセットを見る</button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">人気商品</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- JS で動的に生成されます -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Birthday Gift Sets -->
+    <section class="products" id="birthday-gifts" style="background:#fff5f7;padding:4rem 0;">
+        <div class="container">
+            <h2 class="section-title">バースデー特別セット</h2>
+            <p style="text-align:center;color:#555;margin-bottom:2rem;">
+                30歳の誕生日を祝う、限定ギフトセット。全品30%オフで提供中。
+            </p>
+            <div class="products-grid" id="birthdayProductsGrid">
+                <!-- JS で動的に生成されます -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>ショッピングカート</h3>
+                <button class="close-cart" onclick="toggleCart()">×</button>
+            </div>
+            <div id="cartItems">
+                <!-- Cart items here -->
+            </div>
+            <div class="cart-total" id="cartTotal">合計: ¥0</div>
+            <button class="checkout-btn" onclick="checkout()">購入手続きへ</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="about">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>BEAUTY GLOW について</h3>
+                    <p>高品質な化粧品で、あなたの自信と美しさをサポートします。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>お客様サポート</h3>
+                    <p>営業時間: 月-金 9:00-18:00<br>電話: 03-1234-5678<br>メール: support@beautyglow.jp</p>
+                </div>
+                <div class="footer-section">
+                    <h3>配送・返品</h3>
+                    <p>全国送料無料（5,000円以上）<br>30日間返品保証<br>最短翌日お届け</p>
+                </div>
+            </div>
+            <p>&copy; 2025 BEAUTY GLOW. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // データ
+        const products = [
+            {id:1,name:"グロウ ファンデーション",description:"自然な輝きを与える軽やかなファンデーション",price:4800,emoji:"✨"},
+            {id:2,name:"ルミナス リップスティック",description:"長時間持続する鮮やかなリップ",price:3200,emoji:"💋"},
+            {id:3,name:"ピュア アイシャドウパレット",description:"12色の美しいアイシャドウパレット",price:5600,emoji:"🎨"},
+            {id:4,name:"モイスチャー セラム",description:"集中保湿美容液で肌に潤いを",price:7200,emoji:"💧"},
+            {id:5,name:"ブライト マスカラ",description:"ボリュームと長さを同時に実現",price:2800,emoji:"👁️"},
+            {id:6,name:"フレッシュ チーク",description:"自然な血色感を演出するチーク",price:3600,emoji:"🌸"}
+        ];
+        const birthdaySets = [
+            {id:101,name:"30歳 バースデーセット - 輝くファンデーション+リップ",description:"限定パッケージで特別価格",price:7200,emoji:"🎁"},
+            {id:102,name:"30歳 スキンケアセット",description:"保湿セラム＋モイスチャークリーム",price:9800,emoji:"🌱"},
+            {id:103,name:"リュクスメイクセット",description:"リップ＋アイシャドウ＋マスカラ",price:8600,emoji:"💄"}
+        ];
+        let cart = [];
+
+        function loadProducts(){
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = products.map(p=>`
+                <div class="product-card">
+                    <div class="product-image">${p.emoji}</div>
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-description">${p.description}</div>
+                    <div class="product-price">¥${p.price.toLocaleString()}</div>
+                    <button class="add-to-cart" onclick="addToCart(${p.id})">カートに追加</button>
+                </div>
+            `).join('');
+        }
+
+        function loadBirthdayProducts(){
+            const grid = document.getElementById('birthdayProductsGrid');
+            grid.innerHTML = birthdaySets.map(p=>`
+                <div class="product-card">
+                    <div class="product-image">${p.emoji}</div>
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-description">${p.description}</div>
+                    <div class="product-price">¥${p.price.toLocaleString()}</div>
+                    <button class="add-to-cart" onclick="addToCart(${p.id})">カートに追加</button>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(id){
+            const product = [...products,...birthdaySets].find(p=>p.id===id);
+            const existing = cart.find(item=>item.id===id);
+            if(existing){
+                existing.quantity+=1;
+            }else{
+                cart.push({...product,quantity:1});
+            }
+            updateCart();
+            const btn = event.target;
+            const original = btn.textContent;
+            btn.textContent='追加済み!';
+            btn.style.background='#4caf50';
+            setTimeout(()=>{ btn.textContent=original; btn.style.background=''; },1000);
+        }
+
+        function updateCart(){
+            const count = document.getElementById('cartCount');
+            const items = document.getElementById('cartItems');
+            const total = document.getElementById('cartTotal');
+            const totalItems = cart.reduce((a,b)=>a+b.quantity,0);
+            const totalPrice = cart.reduce((a,b)=>a+b.price*b.quantity,0);
+            count.textContent = totalItems;
+            if(cart.length===0){
+                items.innerHTML='<p style="text-align:center;color:#666;padding:2rem;">カートは空です</p>';
+            }else{
+                items.innerHTML = cart.map(item=>`
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <small>¥${item.price.toLocaleString()} × ${item.quantity}</small>
+                        </div>
+                        <div>
+                            <button onclick="changeQty(${item.id},-1)" style="background:#ff6b9d;color:#fff;border:none;padding:4px 8px;border-radius:4px;margin-right:5px;">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="changeQty(${item.id},1)" style="background:#ff6b9d;color:#fff;border:none;padding:4px 8px;border-radius:4px;margin-left:5px;">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            total.textContent = `合計: ¥${totalPrice.toLocaleString()}`;
+        }
+
+        function changeQty(id,delta){
+            const item = cart.find(i=>i.id===id);
+            if(!item) return;
+            item.quantity+=delta;
+            if(item.quantity<=0) cart = cart.filter(i=>i.id!==id);
+            updateCart();
+        }
+
+        function toggleCart(){
+            const modal=document.getElementById('cartModal');
+            modal.style.display = modal.style.display==='block'?'none':'block';
+        }
+
+        function checkout(){
+            if(cart.length===0){
+                alert('カートが空です。');
+                return;
+            }
+            const total = cart.reduce((a,b)=>a+b.price*b.quantity,0);
+            alert(`ご注文ありがとうございます！\n合計金額: ¥${total.toLocaleString()}\n（※実際の決済はサンプルです）`);
+            cart = [];
+            updateCart();
+            toggleCart();
+        }
+
+        function scrollToSection(id){
+            const el=document.getElementById(id);
+            if(el){
+                el.scrollIntoView({behavior:'smooth'});
+            }
+        }
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded',()=>{loadProducts();loadBirthdayProducts();updateCart();});
+    </script>
+</body>
+</html>
